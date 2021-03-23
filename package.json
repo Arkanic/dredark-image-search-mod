@@ -1,0 +1,26 @@
+{
+  "name": "dredark-image-search-mod",
+  "version": "1.0.0",
+  "description": "extremely painful.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arkanic/dredark-image-search-mod.git"
+  },
+  "author": "Arkanic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arkanic/dredark-image-search-mod/issues"
+  },
+  "homepage": "https://github.com/Arkanic/dredark-image-search-mod#readme",
+  "dependencies": {
+    "g-i-s": "^2.1.6",
+    "jsdom": "^16.5.1",
+    "needle": "^2.6.0",
+    "rate-limit": "^0.1.1"
+  }
+}
