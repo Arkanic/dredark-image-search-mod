@@ -1,9 +1,12 @@
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; //dirty hack, but its a cheap script, so who cares
+
 const fs = require("fs");
 const path = require("path");
 const rateLimit = require("rate-limit");
 const needle = require("needle");
 const {JSDOM} = require("jsdom");
 const gis = require("g-i-s");
+const mime = require("mime-types");
 
 let queue = rateLimit.createQueue({interval: 250});
 
@@ -41,13 +44,26 @@ function downloadGroup(additionalPath) {
                 function downloadAsset(uri) {
                     let imagename = uri.split(".")[0].replace("_", " "); // exclude file extension, replace underscores with spaces
                     queue.add(() => {
-                        console.log(imagename);
                         gis(imagename, (err, results) => {
                             if(err) throw err;
+                            
+                            let link = "";
+                            if(!results[0]) link = "http://placekitten.com/300/300"; // failsafe
+                            else link = results[0].url;
+                            console.log(`${imagename}: ${link}`);
 
-                            let link = results[0].url;
                             queue.add(() => {
                                 console.log(link);
+                                needle.get(link, (err, response) => {
+                                    if(err) throw err;
+                                    
+                                    let extension = mime.extension(response.headers["content-type"]) || link.split(".")[1];
+                                    
+                                    fs.writeFile(path.join(folderName, `${uri}.${extension}`), response.body, (err) => {
+                                        console.log(`${uri}.${extension}`);
+                                        if(err) throw err;
+                                    });
+                                });
                             });
                         });
                     });
@@ -62,3 +78,5 @@ function downloadGroup(additionalPath) {
 }
 
 downloadGroup("");
+downloadGroup("item/")
+downloadGroup("cosmetic/");

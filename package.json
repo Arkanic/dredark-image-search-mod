@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/Arkanic/dredark-image-search-mod#readme",
   "dependencies": {
+    "file-type": "^16.3.0",
     "g-i-s": "^2.1.6",
     "jsdom": "^16.5.1",
+    "mime-types": "^2.1.29",
     "needle": "^2.6.0",
     "rate-limit": "^0.1.1"
   }
