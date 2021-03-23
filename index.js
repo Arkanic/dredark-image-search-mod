@@ -57,7 +57,8 @@ function downloadGroup(additionalPath) {
                                 needle.get(link, (err, response) => {
                                     if(err) throw err;
                                     
-                                    let extension = mime.extension(response.headers["content-type"]) || link.split(".")[1];
+                                    let extension = mime.extension(response.headers["content-type"]);
+                                    if(!extension) console.log("!!! " + response.headers["content-type"] + " !!!");
                                     
                                     fs.writeFile(path.join(folderName, `${uri}.${extension}`), response.body, (err) => {
                                         console.log(`${uri}.${extension}`);
